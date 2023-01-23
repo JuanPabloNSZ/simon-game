@@ -26,6 +26,10 @@ function nextRound() {
 	// Aumenta en 1 el nivel actual
 	level += 1;
 
+	tileContainer.classList.add('unclickable');
+	info.textContent = 'Wait for the computer';
+	heading.textContent = `Level ${level} of 20`;
+
 	// Copia todos los elementos del array sequence al array nextSequence
 	const nextSequence = [...sequence];
 
@@ -34,6 +38,13 @@ function nextRound() {
 
 	// Lanza la función playRound() con el argumento nextSequence
 	playRound(nextSequence);
+
+	// La variable sequence ahora contiene todos los elementos del array nextSequence
+	sequence = [...nextSequence];
+
+	setTimeout(() => {
+		humanTurn(level);
+	}, level * 600 + 1000);
 }
 
 function nextStep() {
@@ -63,4 +74,9 @@ function activateTile(color) {
 	setTimeout(() => {
 		tile.classList.remove('activated');
 	}, 300);
+}
+
+function humanTurn(level) {
+	tileContainer.classList.remove('unclickable');
+	info.textContent = `Your turn: ${level} Tap${level > 1 ? 's' : ''}`;
 }
