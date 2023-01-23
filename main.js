@@ -8,6 +8,33 @@ const heading = document.querySelector('.js-heading');
 const tileContainer = document.querySelector('.js-container');
 
 startButton.addEventListener('click', startGame);
+tileContainer.addEventListener('click', (event) => {
+	const { tile } = event.target.dataset;
+
+	if (tile) handleClick(tile);
+});
+
+function handleClick(tile) {
+	const index = humanSequence.push(tile) - 1;
+	const sound = document.querySelector(`[data-sound='${tile}']`);
+	const remainingTaps = sequence.length - humanSequence.length;
+
+	if (humanSequence.length === sequence.length) {
+		humanSequence = [];
+		info.textContent = 'Success! Keep going!';
+
+		// setTimeout para asegurar que info.textContent aparece en la página
+		setTimeout(() => {
+			nextRound();
+		}, 1000);
+
+		return;
+	}
+
+	info.textContent = `Your turn: ${remainingTaps} Tap${
+		remainingTaps > 1 ? 's' : ''
+	}`;
+}
 
 function startGame() {
 	// Oculta el startButton
