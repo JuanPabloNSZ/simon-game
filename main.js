@@ -19,7 +19,17 @@ function handleClick(tile) {
 	const sound = document.querySelector(`[data-sound='${tile}']`);
 	const remainingTaps = sequence.length - humanSequence.length;
 
+	if (humanSequence[index] !== sequence[index]) {
+		resetGame('Oops! Game over, you pressed the wrong tile');
+		return;
+	}
+
 	if (humanSequence.length === sequence.length) {
+		if (humanSequence.length === 5) {
+			resetGame('Congrats! You completed all the levels');
+			return;
+		}
+
 		humanSequence = [];
 		info.textContent = 'Success! Keep going!';
 
@@ -106,4 +116,15 @@ function activateTile(color) {
 function humanTurn(level) {
 	tileContainer.classList.remove('unclickable');
 	info.textContent = `Your turn: ${level} Tap${level > 1 ? 's' : ''}`;
+}
+
+function resetGame(text) {
+	alert(text);
+	sequence = [];
+	humanSequence = [];
+	level = 0;
+	info.classList.add('hidden');
+	startButton.classList.remove('hidden');
+	heading.textContent = 'Simon Game';
+	tileContainer.classList.add('unclickable');
 }
